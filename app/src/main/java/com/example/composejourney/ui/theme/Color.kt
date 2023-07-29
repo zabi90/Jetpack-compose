@@ -13,3 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 val Blue_100 = Color(69, 184, 233)
 val Dark_80 = Color(106, 121, 138)
 val Dark_100 = Color(41, 45, 50)
+val Light_80 = Color(239, 242, 245)
+val Pink_100 = Color(253, 211, 225, 255)
+val Pink = Color(244, 115, 158, 255)
+
