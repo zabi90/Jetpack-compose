@@ -182,7 +182,8 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         AppButton(
             text = "Next", modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            hideIcon = false
 
         ) {
 

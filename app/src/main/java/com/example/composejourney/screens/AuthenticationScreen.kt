@@ -63,29 +63,21 @@ fun AuthenticationScreen() {
                 .padding(horizontal = 16.dp, vertical = 24.dp)
         )
 
-
-        AnimatedVisibility(
-            visible = menuIndex == 0, modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-        ) {
-            LoginScreen(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
-        }
-
-        AnimatedVisibility(
-            visible = menuIndex == 1, modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            SignUpScreen(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
+        when(menuIndex){
+            0 -> {
+                LoginScreen(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                )
+            }
+            1 -> {
+                SignUpScreen(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                )
+            }
         }
     }
 }

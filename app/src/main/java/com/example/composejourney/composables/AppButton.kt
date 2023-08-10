@@ -16,17 +16,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AppButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun AppButton(text: String, modifier: Modifier = Modifier, hideIcon : Boolean = true , onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = modifier.height(56.dp),
         shape = RoundedCornerShape(16.dp)
     ) {
         Text(text = text)
-        Icon(
-            Icons.Default.KeyboardArrowRight,
-            contentDescription = ""
-        )
+        if (!hideIcon){
+            Icon(
+                Icons.Default.KeyboardArrowRight,
+                contentDescription = ""
+            )
+        }
     }
 }
 

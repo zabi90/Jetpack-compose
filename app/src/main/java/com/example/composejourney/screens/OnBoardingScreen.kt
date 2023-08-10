@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.composejourney.AppNavigator
 import com.example.composejourney.composables.AppButton
 import com.example.composejourney.composables.onBoarding
 import com.example.composejourney.models.OnBoardingInfo
@@ -45,7 +47,7 @@ val pagerData = listOf(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun OnBoardingScreen() {
+fun OnBoardingScreen(navController: NavController) {
     val pageIndex = remember {
         mutableStateOf(0)
     }
@@ -78,15 +80,18 @@ fun OnBoardingScreen() {
             AppButton(
                 "Skip", modifier = Modifier
                     .height(50.dp)
-                    .weight(1f)
+                    .weight(1f), hideIcon = false
             ) {
-
+                scope.launch {
+                    navController.navigate(AppNavigator.Routes.AUTHENTICATION)
+                }
             }
             Spacer(modifier = Modifier.weight(0.5f))
             AppButton(
                 "Next", modifier = Modifier
                     .height(50.dp)
-                    .weight(1f)
+                    .weight(1f),
+                hideIcon = false
             ) {
                 scope.launch {
                     if (pageIndex.value == pagerData.size) {
@@ -104,5 +109,5 @@ fun OnBoardingScreen() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun preview() {
-    OnBoardingScreen()
+    //OnBoardingScreen()
 }
