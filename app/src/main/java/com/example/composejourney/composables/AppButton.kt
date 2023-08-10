@@ -1,5 +1,6 @@
 package com.example.composejourney.composables
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -18,8 +19,8 @@ import androidx.compose.ui.unit.dp
 fun AppButton(text: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Button(
         onClick = onClick,
-        modifier = modifier,
-        shape = RoundedCornerShape(8.dp)
+        modifier = modifier.height(56.dp),
+        shape = RoundedCornerShape(16.dp)
     ) {
         Text(text = text)
         Icon(

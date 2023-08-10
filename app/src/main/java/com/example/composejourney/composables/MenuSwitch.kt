@@ -3,7 +3,9 @@ package com.example.composejourney.composables
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.composejourney.screens.LoginScreen
 import com.example.composejourney.ui.theme.Pink
 import com.example.composejourney.ui.theme.Pink_100
 
@@ -44,6 +47,7 @@ fun MenuSwitch(
                 .padding(8.dp)
                 .weight(1f), onClick = {
                 selectedItem = item
+                onItemClicked.invoke(item)
             })
         }
     }
@@ -66,7 +70,7 @@ fun MenuItem(
     }
 }
 
-data class MenuSwitchItem(val title: String, var isSelected: Boolean = false)
+data class MenuSwitchItem(val index : Int ,val title: String, var isSelected: Boolean = false)
 
 
 @Preview(showBackground = true)
@@ -74,8 +78,8 @@ data class MenuSwitchItem(val title: String, var isSelected: Boolean = false)
 fun MenuSwitchPreview(modifier: Modifier = Modifier) {
     MenuSwitch(
         listOf<MenuSwitchItem>(
-            MenuSwitchItem("Login", true),
-            MenuSwitchItem("Sign Up", false)
+            MenuSwitchItem(0,"Login", true),
+            MenuSwitchItem(1,"Sign Up", false)
         ), {}, modifier.fillMaxWidth()
     )
 }

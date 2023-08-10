@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composejourney.composables.AppButton
 import com.example.composejourney.extension.textFieldModifier
@@ -39,21 +36,26 @@ import com.example.composejourney.ui.theme.Light_80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
-    val email = remember {
-        mutableStateOf("")
-    }
-
-    val password = remember {
-        mutableStateOf("")
-    }
-
-    var isFocusedEmail by remember { mutableStateOf(false) }
-    var isFocusedPassword by remember { mutableStateOf(false) }
-
+fun SignUpScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
+        modifier
+            .fillMaxSize()
     ) {
+        val email = remember {
+            mutableStateOf("")
+        }
+
+        val password = remember {
+            mutableStateOf("")
+        }
+
+        val phone = remember {
+            mutableStateOf("")
+        }
+
+        var isFocusedEmail by remember { mutableStateOf(false) }
+        var isFocusedPassword by remember { mutableStateOf(false) }
+        var isFocusedPhone by remember { mutableStateOf(false) }
 
         Text(
             text = "Email Address",
@@ -87,8 +89,40 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 imeAction = ImeAction.Next
             )
         )
+
         Text(
-            text = "Password",
+            text = "Phone Number",
+            style = MaterialTheme.typography.titleMedium,
+            color = Dark_100,
+            modifier = Modifier.padding(start = 24.dp, top = 16.dp, end = 16.dp, bottom = 8.dp)
+        )
+        TextField(
+            value = phone.value,
+            placeholder = { Text(text = "+1 000 000 000") },
+            onValueChange = {
+                phone.value = it
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp)
+                .textFieldModifier(isFocusedPhone)
+                .onFocusChanged { focusState ->
+                    isFocusedPhone = focusState.isFocused
+                },
+            shape = RoundedCornerShape(16.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Light_80,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+            ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Phone,
+                imeAction = ImeAction.Next
+            )
+        )
+        Text(
+            text = "Create Password",
             style = MaterialTheme.typography.titleMedium,
             color = Dark_100,
             modifier = Modifier.padding(start = 24.dp, top = 16.dp, end = 16.dp, bottom = 8.dp)
@@ -146,7 +180,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         }
         Spacer(modifier = Modifier.weight(1f))
         AppButton(
-            text = "Login", modifier = Modifier
+            text = "Next", modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
 
@@ -154,11 +188,4 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 
         }
     }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun loginPreview() {
-    LoginScreen()
 }
