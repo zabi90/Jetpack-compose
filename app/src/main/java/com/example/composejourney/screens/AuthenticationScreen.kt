@@ -25,13 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.composejourney.composables.MenuSwitch
 import com.example.composejourney.composables.MenuSwitchItem
 import com.example.composejourney.ui.theme.Dark_100
 import com.example.composejourney.ui.theme.Dark_80
 
 @Composable
-fun AuthenticationScreen() {
+fun AuthenticationScreen(navController: NavController) {
     var menuIndex by remember { mutableStateOf(0) }
 
     Column(
@@ -66,6 +68,7 @@ fun AuthenticationScreen() {
         when(menuIndex){
             0 -> {
                 LoginScreen(
+                    navController,
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f)
@@ -85,5 +88,6 @@ fun AuthenticationScreen() {
 @Preview(showBackground = true)
 @Composable
 fun authenticationScreenPreview() {
-    AuthenticationScreen()
+    val navController = rememberNavController()
+    AuthenticationScreen(navController)
 }

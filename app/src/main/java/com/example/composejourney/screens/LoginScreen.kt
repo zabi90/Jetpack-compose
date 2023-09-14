@@ -23,11 +23,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.composejourney.AppNavigator
+import com.example.composejourney.R
 import com.example.composejourney.composables.AppButton
 import com.example.composejourney.extension.textFieldModifier
 import com.example.composejourney.ui.theme.Dark_100
@@ -36,7 +41,7 @@ import com.example.composejourney.ui.theme.Light_80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(navController: NavController, modifier: Modifier = Modifier) {
     val email = remember {
         mutableStateOf("")
     }
@@ -53,7 +58,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
     ) {
 
         Text(
-            text = "Email Address",
+            text = stringResource(R.string.email_address),
             style = MaterialTheme.typography.titleMedium,
             color = Dark_100,
             modifier = Modifier.padding(start = 24.dp, top = 16.dp, end = 16.dp, bottom = 8.dp)
@@ -61,7 +66,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 
         TextField(
             value = email.value,
-            placeholder = { Text(text = "Enter your Email") },
+            placeholder = { Text(text = stringResource(R.string.enter_your_email)) },
             onValueChange = {
                 email.value = it
             },
@@ -85,14 +90,14 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             )
         )
         Text(
-            text = "Password",
+            text = stringResource(R.string.password),
             style = MaterialTheme.typography.titleMedium,
             color = Dark_100,
             modifier = Modifier.padding(start = 24.dp, top = 16.dp, end = 16.dp, bottom = 8.dp)
         )
         TextField(
             value = password.value,
-            placeholder = { Text(text = "Enter your Password") },
+            placeholder = { Text(text = stringResource(R.string.enter_your_password)) },
             onValueChange = {
                 password.value = it
             },
@@ -117,7 +122,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = "Forgot Password?", modifier = Modifier
+            text = stringResource(R.string.forgot_password), modifier = Modifier
                 .align(Alignment.End)
                 .padding(16.dp)
                 .clickable {
@@ -135,7 +140,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Or Login Using :",
+                text = stringResource(R.string.or_login_using),
                 style = MaterialTheme.typography.titleMedium,
                 color = Dark_80
             )
@@ -143,13 +148,13 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         }
         Spacer(modifier = Modifier.weight(1f))
         AppButton(
-            text = "Login", modifier = Modifier
+            text = stringResource(R.string.login), modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             hideIcon = false
 
         ) {
-
+            navController.navigate(AppNavigator.Routes.HOME)
         }
     }
 }
@@ -158,5 +163,6 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun loginPreview() {
-    LoginScreen()
+    val navController = rememberNavController()
+    LoginScreen(navController)
 }
