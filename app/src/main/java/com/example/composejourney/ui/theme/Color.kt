@@ -16,4 +16,4 @@ val Dark_100 = Color(41, 45, 50)
 val Light_80 = Color(239, 242, 245)
 val Pink_100 = Color(253, 211, 225, 255)
 val Pink = Color(244, 115, 158, 255)
-
+val Pink_12 = Color(244, 115, 158, 31)
