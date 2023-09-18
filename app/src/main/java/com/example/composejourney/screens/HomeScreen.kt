@@ -96,6 +96,15 @@ fun HomeScreen(navController: NavController) {
     }
 }
 
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun HomeScreenPreview() {
+    ComposeJourneyTheme {
+        val navController = rememberNavController()
+        HomeScreen(navController)
+    }
+}
+
 @Composable
 fun HomeSection(
     @StringRes title: Int,
@@ -192,11 +201,7 @@ fun CategoryItemPreview() {
     CategoryItem(Category("Burgers", R.drawable.burgers))
 }
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun HomeScreenPreview() {
-    ComposeJourneyTheme {
-        val navController = rememberNavController()
-        HomeScreen(navController)
-    }
+fun OffersItem() {
+    
 }

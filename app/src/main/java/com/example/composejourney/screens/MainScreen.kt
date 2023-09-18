@@ -3,16 +3,27 @@ package com.example.composejourney.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.composejourney.R
@@ -22,16 +33,24 @@ import com.example.composejourney.ui.theme.Light_80
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController) {
+    var selectedItem by remember { mutableStateOf(0) }
     Scaffold(
         bottomBar = {
-            AppBottomNavigation()
-        },
+            AppBottomNavigation(selectedItem, onItemSelected = {
+                selectedItem = it
+            })
+        }
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .padding(innerPadding)
         ) {
-            HomeScreen(navController = navController)
+            when (selectedItem) {
+                0 -> HomeScreen(navController = navController)
+                else -> LoginScreen(navController = navController)
+            }
+
+            Text(text = "Selected Item " + selectedItem)
         }
     }
 }
@@ -46,16 +65,23 @@ fun MainScreenPreview() {
 }
 
 @Composable
-private fun AppBottomNavigation(modifier: Modifier = Modifier) {
+private fun AppBottomNavigation(
+    selectedItem: Int,
+    onItemSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+
     NavigationBar(
         modifier = modifier,
-        containerColor = Light_80
+        containerColor = Light_80,
     ) {
         NavigationBarItem(
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.home),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
                 )
             },
             label = {
@@ -63,14 +89,24 @@ private fun AppBottomNavigation(modifier: Modifier = Modifier) {
                     text = "Home"
                 )
             },
-            selected = true,
-            onClick = {}
+            selected = selectedItem == 0,
+            onClick = {
+                onItemSelected.invoke(0)
+            },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Black,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.Black,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Light_80
+            )
         )
         NavigationBarItem(
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.discover),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
                 )
             },
             label = {
@@ -78,14 +114,23 @@ private fun AppBottomNavigation(modifier: Modifier = Modifier) {
                     text = "Discover"
                 )
             },
-            selected = false,
-            onClick = {}
+            selected = selectedItem == 1,
+            onClick = { onItemSelected.invoke(1) },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Black,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.Black,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Light_80
+            )
+
         )
         NavigationBarItem(
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.car),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
                 )
             },
             label = {
@@ -94,14 +139,22 @@ private fun AppBottomNavigation(modifier: Modifier = Modifier) {
                 )
             },
             selected = false,
-            onClick = {}
+            onClick = {},
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Black,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.Black,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Light_80
+            )
         )
 
         NavigationBarItem(
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.receipt),
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
                 )
             },
             label = {
@@ -110,13 +163,21 @@ private fun AppBottomNavigation(modifier: Modifier = Modifier) {
                 )
             },
             selected = false,
-            onClick = {}
+            onClick = {},
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Black,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.Black,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Light_80
+            )
         )
         NavigationBarItem(
             icon = {
                 Image(
                     painter = painterResource(id = R.drawable.profile_image),
                     contentDescription = null,
+                    modifier = Modifier.size(30.dp)
                 )
             },
             label = {
@@ -125,7 +186,14 @@ private fun AppBottomNavigation(modifier: Modifier = Modifier) {
                 )
             },
             selected = false,
-            onClick = {}
+            onClick = {},
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = Color.Black,
+                unselectedIconColor = Color.Gray,
+                selectedTextColor = Color.Black,
+                unselectedTextColor = Color.Gray,
+                indicatorColor = Light_80
+            )
         )
     }
 }
@@ -134,7 +202,7 @@ private fun AppBottomNavigation(modifier: Modifier = Modifier) {
 @Composable
 fun AppBottomNavigationPreview() {
     ComposeJourneyTheme {
-        AppBottomNavigation()
+        AppBottomNavigation(0, {})
     }
 }
 

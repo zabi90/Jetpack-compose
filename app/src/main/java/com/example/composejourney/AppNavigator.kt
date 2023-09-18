@@ -5,8 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.composejourney.screens.AuthenticationScreen
-import com.example.composejourney.screens.HomeScreen
-import com.example.composejourney.screens.LoginScreen
+import com.example.composejourney.screens.MainScreen
 import com.example.composejourney.screens.OnBoardingScreen
 
 object AppNavigator{
@@ -21,8 +20,8 @@ object AppNavigator{
             composable(Routes.AUTHENTICATION){
                 AuthenticationScreen(navController = navController)
             }
-            composable(Routes.HOME){
-                HomeScreen(navController = navController)
+            composable(Routes.MAIN){
+                MainScreen(navController = navController)
             }
         }
     }
@@ -31,6 +30,6 @@ object AppNavigator{
     object Routes {
         const val AUTHENTICATION = "authentication"
         const val ON_BOARDING = "onBoarding"
-        const val HOME = "home"
+        const val MAIN = "main"
     }
 }

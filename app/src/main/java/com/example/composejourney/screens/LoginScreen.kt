@@ -154,7 +154,7 @@ fun LoginScreen(navController: NavController, modifier: Modifier = Modifier) {
             hideIcon = false
 
         ) {
-            navController.navigate(AppNavigator.Routes.HOME)
+            navController.navigate(AppNavigator.Routes.MAIN)
         }
     }
 }
