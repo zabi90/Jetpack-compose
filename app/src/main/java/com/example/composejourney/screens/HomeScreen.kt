@@ -1,6 +1,7 @@
 package com.example.composejourney.screens
 
 import android.icu.text.CaseMap.Title
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -11,11 +12,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,6 +32,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -50,7 +56,11 @@ import com.example.composejourney.ui.theme.Pink_12
 @Composable
 fun HomeScreen(navController: NavController) {
 
-    Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp)
+            .verticalScroll(rememberScrollState()),
+    ) {
 
         Text(
             modifier = Modifier.padding(top = 16.dp),
@@ -91,7 +101,11 @@ fun HomeScreen(navController: NavController) {
         }
 
         HomeSection(title = R.string.offers_near_your) {
-            CategoriesGrid()
+            OfferItemList()
+        }
+
+        HomeSection(title = R.string.new_trending) {
+            OfferItemList()
         }
     }
 }
@@ -121,7 +135,7 @@ fun HomeSection(
         )
         content()
 
-        Divider(color = Light_80)
+        Divider(color = Light_80, modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
     }
 }
 
@@ -135,7 +149,7 @@ val categories = listOf(
     Category("Salads", R.drawable.salads),
     Category("Sweets", R.drawable.sweets),
     Category("Utensils", R.drawable.utensils),
-    )
+)
 
 @Composable
 fun CategoriesGrid() {
@@ -202,6 +216,46 @@ fun CategoryItemPreview() {
 }
 
 @Composable
-fun OffersItem() {
-    
+fun OffersItem(@DrawableRes imageId: Int) {
+    Image(
+        painter = painterResource(id = imageId),
+        contentDescription = null,
+        modifier = Modifier
+            .width(315.dp)
+            .height(180.dp)
+            .padding(start = 8.dp, end = 8.dp)
+            .clip(MaterialTheme.shapes.medium),
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Preview
+@Composable
+fun OfferItemPreview() {
+    OffersItem(R.drawable.rectangle_burgers)
+}
+
+
+@Composable
+fun OfferItemList() {
+    LazyRow {
+        item {
+            OffersItem(R.drawable.rectangle_burgers)
+        }
+        item {
+            OffersItem(R.drawable.kfc_banner)
+        }
+        item {
+            OffersItem(R.drawable.rectangle_burgers)
+        }
+        item {
+            OffersItem(R.drawable.rectangle_burgers)
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun OfferItemListPreview() {
+    OfferItemList()
 }

@@ -50,7 +50,7 @@ fun MainScreen(navController: NavController) {
                 else -> LoginScreen(navController = navController)
             }
 
-            Text(text = "Selected Item " + selectedItem)
+            //Text(text = "Selected Item " + selectedItem)
         }
     }
 }
