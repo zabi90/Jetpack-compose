@@ -13,7 +13,9 @@ import com.example.composejourney.screens.AuthenticationScreen
 import com.example.composejourney.screens.LoginScreen
 import com.example.composejourney.screens.OnBoardingScreen
 import com.example.composejourney.ui.theme.ComposeJourneyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

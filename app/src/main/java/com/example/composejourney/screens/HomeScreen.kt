@@ -1,6 +1,5 @@
 package com.example.composejourney.screens
 
-import android.icu.text.CaseMap.Title
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -30,6 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.composejourney.R
@@ -49,13 +51,15 @@ import com.example.composejourney.models.Category
 import com.example.composejourney.ui.theme.Blue_100
 import com.example.composejourney.ui.theme.ComposeJourneyTheme
 import com.example.composejourney.ui.theme.Light_80
-import com.example.composejourney.ui.theme.Pink_100
 import com.example.composejourney.ui.theme.Pink_12
+import com.example.composejourney.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
 
+    val homeViewModel : HomeViewModel = hiltViewModel()
+    val categories : State<List<Category>> = homeViewModel.categories.collectAsState()
     Column(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp)
@@ -97,7 +101,7 @@ fun HomeScreen(navController: NavController) {
         )
 
         HomeSection(title = R.string.categories) {
-            CategoriesGrid()
+            CategoriesGrid(categories.value)
         }
 
         HomeSection(title = R.string.offers_near_your) {
@@ -152,7 +156,7 @@ val categories = listOf(
 )
 
 @Composable
-fun CategoriesGrid() {
+fun CategoriesGrid(categories : List<Category>) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(2),
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -174,7 +178,7 @@ fun CategoriesGrid() {
 @Composable
 @Preview(showBackground = true)
 fun CategoriesGridPreview() {
-    CategoriesGrid()
+    CategoriesGrid(categories = categories)
 }
 
 @Composable
