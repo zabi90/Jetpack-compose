@@ -4,8 +4,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,10 +18,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,7 +34,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +51,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.composejourney.R
 import com.example.composejourney.models.Category
+import com.example.composejourney.models.Outlet
 import com.example.composejourney.ui.theme.Blue_100
 import com.example.composejourney.ui.theme.ComposeJourneyTheme
 import com.example.composejourney.ui.theme.Light_80
@@ -58,8 +62,8 @@ import com.example.composejourney.viewmodels.HomeViewModel
 @Composable
 fun HomeScreen(navController: NavController) {
 
-    val homeViewModel : HomeViewModel = hiltViewModel()
-    val categories : State<List<Category>> = homeViewModel.categories.collectAsState()
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val categories: State<List<Category>> = homeViewModel.categories
     Column(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp)
@@ -101,7 +105,7 @@ fun HomeScreen(navController: NavController) {
         )
 
         HomeSection(title = R.string.categories) {
-            CategoriesGrid(categories.value)
+            CategoriesGrid(categories.value, homeViewModel.isLoading.value)
         }
 
         HomeSection(title = R.string.offers_near_your) {
@@ -109,7 +113,7 @@ fun HomeScreen(navController: NavController) {
         }
 
         HomeSection(title = R.string.new_trending) {
-            OfferItemList()
+            TrendingOutletList(homeViewModel.outlets.value, homeViewModel.isLoadingOutlet.value)
         }
     }
 }
@@ -156,21 +160,31 @@ val categories = listOf(
 )
 
 @Composable
-fun CategoriesGrid(categories : List<Category>) {
-    LazyHorizontalGrid(
-        rows = GridCells.Fixed(2),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
+fun CategoriesGrid(categories: List<Category>, isLoading: Boolean) {
+    Box(
+        Modifier
             .height(220.dp)
-
+            .fillMaxWidth(), contentAlignment = Alignment.Center
     ) {
-        items(categories) {
-            CategoryItem(it)
-        }
-        item {
-            Text(text = "See all")
+        if (isLoading) {
+            CircularProgressIndicator()
+        } else {
+            LazyHorizontalGrid(
+                rows = GridCells.Fixed(2),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier
+                    .height(220.dp)
+
+            ) {
+                items(categories) {
+                    CategoryItem(it)
+                }
+                item {
+                    Text(text = "See all")
+                }
+            }
         }
     }
 }
@@ -178,7 +192,7 @@ fun CategoriesGrid(categories : List<Category>) {
 @Composable
 @Preview(showBackground = true)
 fun CategoriesGridPreview() {
-    CategoriesGrid(categories = categories)
+    CategoriesGrid(categories = categories, isLoading = false)
 }
 
 @Composable
@@ -262,4 +276,69 @@ fun OfferItemList() {
 @Preview(showBackground = true)
 fun OfferItemListPreview() {
     OfferItemList()
+}
+
+@Composable
+fun TrendingOutletList(outlets: List<Outlet>, isLoading: Boolean) {
+
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        if (isLoading) {
+            CircularProgressIndicator()
+        }
+        LazyRow {
+            items(outlets) {
+                TrendingOutletListItem(offerImage = it.cover, logo = it.logo, outletName = it.name)
+            }
+        }
+    }
+
+}
+
+@Composable
+fun TrendingOutletListItem(
+    @DrawableRes offerImage: Int,
+    @DrawableRes logo: Int,
+    outletName: String
+) {
+
+    Column (modifier = Modifier.height(160.dp).width(260.dp)) {
+        Image(
+            painter = painterResource(id = offerImage),
+            contentDescription = null,
+            modifier = Modifier
+                .width(250.dp)
+                .height(115.dp)
+                .padding(start = 8.dp, end = 8.dp)
+                .clip(MaterialTheme.shapes.medium),
+            contentScale = ContentScale.Crop
+        )
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(id = logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(45.dp)
+                    .height(45.dp)
+                    .padding(8.dp)
+                    .clip(MaterialTheme.shapes.medium),
+                contentScale = ContentScale.Crop
+            )
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = outletName, style = MaterialTheme.typography.titleMedium)
+                Text(
+                    text = "2.1 mi",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.Gray
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+@Preview(showBackground = true)
+fun TrendingOutletListItemPreview() {
+    TrendingOutletListItem(R.drawable.kfc_banner, R.drawable.kfc, "KFC")
 }
