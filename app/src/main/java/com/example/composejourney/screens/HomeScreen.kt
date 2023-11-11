@@ -66,12 +66,12 @@ fun HomeScreen(navController: NavController) {
     val categories: State<List<Category>> = homeViewModel.categories
     Column(
         modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp)
+            //.padding(start = 16.dp, end = 16.dp)
             .verticalScroll(rememberScrollState()),
     ) {
 
         Text(
-            modifier = Modifier.padding(top = 16.dp),
+            modifier = Modifier.padding(top = 16.dp,start = 16.dp, end = 16.dp),
             text = "Good Evening Zohaib",
             style = MaterialTheme.typography.headlineMedium
         )
@@ -79,7 +79,7 @@ fun HomeScreen(navController: NavController) {
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp),
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
             value = "",
             shape = RoundedCornerShape(16.dp),
             placeholder = {
@@ -143,7 +143,7 @@ fun HomeSection(
         )
         content()
 
-        Divider(color = Light_80, modifier = Modifier.padding(top = 16.dp, bottom = 16.dp))
+        Divider(color = Light_80, modifier = Modifier.padding(top = 16.dp))
     }
 }
 
@@ -171,7 +171,7 @@ fun CategoriesGrid(categories: List<Category>, isLoading: Boolean) {
         } else {
             LazyHorizontalGrid(
                 rows = GridCells.Fixed(2),
-                contentPadding = PaddingValues(horizontal = 16.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
@@ -256,7 +256,7 @@ fun OfferItemPreview() {
 
 @Composable
 fun OfferItemList() {
-    LazyRow {
+    LazyRow(contentPadding = PaddingValues(horizontal = 8.dp)) {
         item {
             OffersItem(R.drawable.rectangle_burgers)
         }
@@ -285,7 +285,7 @@ fun TrendingOutletList(outlets: List<Outlet>, isLoading: Boolean) {
         if (isLoading) {
             CircularProgressIndicator()
         }
-        LazyRow {
+        LazyRow(contentPadding = PaddingValues(horizontal = 8.dp)) {
             items(outlets) {
                 TrendingOutletListItem(offerImage = it.cover, logo = it.logo, outletName = it.name)
             }
